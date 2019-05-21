@@ -128,7 +128,25 @@ extension String {
       replaceSubrange(match.range, with: replacement)
     }
   }
-
+/// 新增方法
+  public mutating func replacedAll(matching regex: Regex, with template: String) -> String {
+    var string = self
+    for match in regex.allMatches(in: self).reversed() {
+      let replacement = regex
+        .regularExpression
+        .replacementString(
+          for: match.matchResult,
+          in: self,
+          offset: 0,
+          template: template
+      )
+       string = string.replacingOccurrences(of: match.matchedString, with: replacement)
+//      replaceSubrange(match.range, with: replacement)
+      
+    }
+    return string
+  }
+  
   /// Replace each substring matched by the regular expression described in
   /// `pattern` with `template`.
   ///
